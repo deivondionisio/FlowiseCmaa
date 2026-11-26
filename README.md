@@ -1,6 +1,6 @@
 # Flowise CMAA
 
-Flowise 3.1.4 com a Maria (agente do Copilot Studio da CMAA) conectada via Direct Line.
+Flowise 3.1.4 com a Maria (agente do Copilot Studio da CMAA), chamada pelo mesmo fluxo do Power Automate usado no app Mendix.
 
 ## 1. Rodar localmente (Windows)
 
@@ -8,10 +8,11 @@ Pré-requisito: **Node.js 24** (https://nodejs.org). Confira com `node -v`.
 
 1. Crie um arquivo `.env` na raiz do projeto (ele é ignorado pelo Git e nunca vai para o GitHub):
    ```
-   MARIA_DIRECTLINE_SECRET='cole-aqui-o-segredo-1'
+   MARIA_FLOW_URL='cole-aqui-a-url-completa-do-fluxo'
    PORT=3000
    ```
-   O segredo fica no Copilot Studio: agente Maria > Configurações > Segurança > Segurança de canal Web > Segredo 1 > Copiar.
+   A URL é a mesma da chamada REST do Mendix (APIs.ACT_CallMariaAgent > Call REST > Localização).
+   Ela contém a assinatura `sig=...`, que funciona como senha: nunca coloque no código nem no chat.
 2. Rode `.\run.bat` (a primeira vez instala o Flowise e demora alguns minutos).
 3. Abra http://localhost:3000 e crie a conta de administrador.
 
@@ -19,8 +20,8 @@ Pré-requisito: **Node.js 24** (https://nodejs.org). Confira com `node -v`.
 
 ### 2.1 Variável com o segredo
 *Variables* (menu lateral) > **Add Variable**:
-- Name: `MARIA_DIRECTLINE_SECRET`
-- Type: **Runtime** (o Flowise lê o valor do `.env`, o segredo não fica salvo no banco)
+- Name: `MARIA_FLOW_URL`
+- Type: **Runtime** (o Flowise lê o valor do `.env`, a URL não fica salva no banco)
 
 ### 2.2 Agentflow
 1. *Agentflows* > **Add New**.
@@ -29,7 +30,7 @@ Pré-requisito: **Node.js 24** (https://nodejs.org). Confira com `node -v`.
    - *Input Variables* > Add Item:
      - `pergunta` = `{{ question }}`
      - `historico` = `{{ chat_history }}`
-   - *Javascript Function*: cole o conteúdo de `funcoes/maria_directline.js`.
+   - *Javascript Function*: cole o conteúdo de `funcoes/maria_powerautomate.js`.
 4. No **Direct Reply**, em *Message*, selecione a saída do Custom Function (`{{ customFunctionAgentflow_0 }}`).
 5. Salve e teste no chat (ícone de balão no canto superior direito).
 
