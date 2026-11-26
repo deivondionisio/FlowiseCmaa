@@ -16,10 +16,20 @@ Langflow com componentes da CMAA, pronto para o Coolify:
 Os componentes aparecem na barra lateral do Langflow, na categoria **cmaa**.
 
 ## Rodar localmente
-```bash
-cp .env.example .env   # e preencha
-docker compose up --build
+Crie um arquivo `.env` na raiz (ele é ignorado pelo Git e nunca vai para o GitHub):
 ```
+SERVICE_PASSWORD_POSTGRES=uma-senha
+SERVICE_PASSWORD_LANGFLOW=uma-senha
+SERVICE_BASE64_64_LANGFLOWSECRET=uma-chave-aleatoria-longa
+LANGFLOW_SUPERUSER=admin
+MARIA_API_URL=https://url-da-api-do-copilot
+MARIA_API_KEY=
+DS_HOST=
+DS_PORT=443
+DS_USER=
+DS_PASSWORD=
+```
+Depois rode `docker compose up --build`.
 Acesse http://localhost:7860 (adicione `ports: ["7860:7860"]` ao serviço `langflow` para uso local).
 
 ## Datasphere
