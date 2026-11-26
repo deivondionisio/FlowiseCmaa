@@ -32,6 +32,10 @@ if (-not (Test-Path node_modules\.bin\flowise.cmd)) {
         Write-Host 'Apague a pasta node_modules e rode o run.bat de novo.' -ForegroundColor Yellow
         exit 1
     }
+    # O npm novo bloqueia scripts de instalação; o SQLite (banco do Flowise) precisa deles
+    Write-Host 'Preparando o SQLite (banco local do Flowise)...'
+    npm install-scripts approve sqlite3 better-sqlite3
+    npm rebuild sqlite3 better-sqlite3
 }
 
 if (-not $env:PORT) { $env:PORT = '3000' }
