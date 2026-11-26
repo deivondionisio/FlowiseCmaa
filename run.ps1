@@ -25,7 +25,13 @@ Get-Content .env | ForEach-Object {
 # Instala o Flowise na pasta do projeto (só na primeira vez)
 if (-not (Test-Path node_modules\.bin\flowise.cmd)) {
     Write-Host 'Instalando Flowise 3.1.4, a primeira vez demora alguns minutos...'
-    npm install --no-fund --no-audit flowise@3.1.4
+    npm install --no-fund --no-audit --fetch-retries=5 --fetch-retry-mintimeout=20000 --fetch-retry-maxtimeout=120000 flowise@3.1.4
+    if ($LASTEXITCODE -ne 0 -or -not (Test-Path node_modules\.bin\flowise.cmd)) {
+        Write-Host ''
+        Write-Host 'A instalação do Flowise falhou (veja o erro acima).' -ForegroundColor Red
+        Write-Host 'Apague a pasta node_modules e rode o run.bat de novo.' -ForegroundColor Yellow
+        exit 1
+    }
 }
 
 if (-not $env:PORT) { $env:PORT = '3000' }
