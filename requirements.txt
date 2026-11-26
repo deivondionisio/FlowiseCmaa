@@ -1,3 +1,0 @@
-langflow==1.13.4
-hdbcli
-sqlalchemy-hana

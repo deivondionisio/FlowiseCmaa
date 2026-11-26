@@ -1,6 +1,4 @@
 .env
-.venv/
+node_modules/
 .vs/
-__pycache__/
-*.pyc
-langflow-data/
+.flowise/
